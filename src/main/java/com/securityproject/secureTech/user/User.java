@@ -27,6 +27,7 @@ public class User implements UserDetails {
     private String name;
 
 
+    @SuppressWarnings("unused")
     private String userName;
 
 

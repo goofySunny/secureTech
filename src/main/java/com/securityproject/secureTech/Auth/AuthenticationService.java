@@ -20,20 +20,22 @@ public class AuthenticationService {
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
 
-    public AuthenticationResponse register(AuthenticationRequest.RegisterRequest request) {
-        var user = User.builder()
-                .name(request.getName())
-                .userName(request.getUsername())
-                .email(request.getEmail())
-                .pass(passwordEncoder.encode(request.getPassword()))
-                .role(Role.USER)
-                .build();
-        repository.save(user);
-        var jwtToken = jwtService.generateToken(user);
-        return AuthenticationResponse.builder()
-                .token(jwtToken)
-                .build();
-    }
+    // Todo: check the register request for null register request
+    @SuppressWarnings("null")
+        public AuthenticationResponse register(AuthenticationRequest.RegisterRequest request) {
+                var user = User.builder()
+                        .name(request.getName())
+                        .userName(request.getUsername())
+                        .email(request.getEmail())
+                        .pass(passwordEncoder.encode(request.getPassword()))
+                        .role(Role.USER)
+                        .build();
+                repository.save(user);
+                var jwtToken = jwtService.generateToken(user);
+                return AuthenticationResponse.builder()
+                        .token(jwtToken)
+                        .build();
+        }
 
     public AuthenticationResponse authenticate(AuthenticationRequest request) {
         authenticationManager.authenticate(
