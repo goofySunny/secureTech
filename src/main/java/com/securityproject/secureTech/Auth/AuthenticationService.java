@@ -20,7 +20,6 @@ public class AuthenticationService {
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
 
-    // Todo: check the register request for null register request
     @SuppressWarnings("null")
         public AuthenticationResponse register(AuthenticationRequest.RegisterRequest request) {
                 var user = User.builder()
