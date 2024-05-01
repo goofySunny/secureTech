@@ -25,17 +25,18 @@ public class SecurityConfig {
 
 
         http
-                .csrf()
-                .disable()
-                .authorizeHttpRequests()
-                .requestMatchers("/api/v1/auth/**")
-                .permitAll()
-                .anyRequest()
-                .authenticated()
-                .and()
-                .sessionManagement()
-                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                .and()
+            // .csrf()
+            // .disable()
+            .csrf(csrf -> csrf.disable())
+                // .authorizeHttpRequests()
+                // .requestMatchers("/api/v1/auth/**")
+                // .permitAll()
+                // .anyRequest()
+                // .authenticated()
+                .authorizeHttpRequests(req -> req.requestMatchers("api/v1/auth/**").permitAll().anyRequest().authenticated())
+                // .sessionManagement()
+                // .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authenticationProvider(authenticationProvider)
                 .addFilterBefore(JwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
 
