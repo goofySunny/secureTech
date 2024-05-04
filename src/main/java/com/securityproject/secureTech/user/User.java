@@ -15,20 +15,20 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@Table(name = "users")
-
+@Table(name = "users",
+uniqueConstraints = @UniqueConstraint(columnNames={"id", "userName"}) 
+)
 public class User implements UserDetails {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer id;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private String id;
 
 
     private String name;
 
 
-    @SuppressWarnings("unused")
-    private String userName;
+    private String username;
 
 
     private String email;
@@ -53,7 +53,7 @@ public class User implements UserDetails {
 
     @Override
     public String getUsername() {
-        return email;
+        return username;
     }
 
     @Override

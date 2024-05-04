@@ -30,17 +30,17 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             throws ServletException, IOException {
         final String authHeader = request.getHeader("Authorization");
         final String jwt;
-        final String userEmail;
+        final String username;
 
         if (authHeader == null || !authHeader.startsWith("Bearer ")) {
             filterChain.doFilter(request, response);
             return;
         }
             jwt = authHeader.substring(7);
-            userEmail = jwtservice.extractUsername(jwt); //todo: extract userEmail from the jwt token
-            if (userEmail != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+            username = jwtservice.extractUsername(jwt); //todo: extract userEmail from the jwt token
+            if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
 
-                UserDetails userDetails = this.userDetailsService.loadUserByUsername(userEmail);
+                UserDetails userDetails = this.userDetailsService.loadUserByUsername(username);
 
                 if (jwtservice.isTokenValid(jwt, userDetails)) {
                     UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
