@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.securityproject.secureTech.Exception.UserAlreadyExistsException;
+
 @RestController
 @RequestMapping(path = "/api/v1/auth")
 public class AuthenticationController {
@@ -23,7 +25,12 @@ public class AuthenticationController {
         if (request.getEmail().isEmpty() || request.getPassword().isEmpty() || request.getUsername().isEmpty()) {
             return ResponseEntity.badRequest().build();
         }
-        return ResponseEntity.ok(service.register(request));
+        if (service.findByEmail(request.getEmail()) == null && service.findByUsername(request.getUsername()) == null) {
+            return ResponseEntity.ok(service.register(request));
+        } else {
+            throw new UserAlreadyExistsException("User is already present in the database");
+        }
+        
     }
 
     @PostMapping("/authenticate")

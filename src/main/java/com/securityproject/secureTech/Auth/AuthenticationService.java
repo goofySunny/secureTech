@@ -57,4 +57,14 @@ public class AuthenticationService {
                 .token(jwtToken)
                 .build();
     }
+    
+    public User findByEmail(String email) {
+        User user = repository.findByEmail(email).orElse(null);
+        return user;
+    }
+
+    public User findByUsername(String username) {
+        User user = repository.findByUsername(username).orElse(null);
+        return user;
+    }
 }
